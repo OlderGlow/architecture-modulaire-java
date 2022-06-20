@@ -3,7 +3,7 @@ package eu.unareil.bo;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class ProduitPerissable extends Produit {
+public abstract class ProduitPerissable extends Produit {
     private LocalDate dateLimiteConso;
 
     public ProduitPerissable(LocalDate dateLimiteConso) {
