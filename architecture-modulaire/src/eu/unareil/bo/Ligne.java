@@ -56,7 +56,7 @@ public class Ligne {
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer();
-        DecimalFormat df = new DecimalFormat("#.00");
+        DecimalFormat df = new DecimalFormat("#0.00");
         sb.append(this.getClass().getSimpleName());
         sb.append(" [");
         sb.append("produit=").append(produit);

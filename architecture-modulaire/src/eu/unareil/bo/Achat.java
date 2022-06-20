@@ -77,7 +77,7 @@ public class Achat {
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer();
-        DecimalFormat df = new DecimalFormat("#.00");
+        DecimalFormat df = new DecimalFormat("#0.00");
         sb.append("Achat : ").append("\n");
         for(Ligne ligne : lignesAchat) {
             sb.append("\n");
