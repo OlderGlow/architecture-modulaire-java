@@ -26,4 +26,13 @@ public class ProduitPerissable extends Produit {
     public void setDateLimiteConso(LocalDate dateLimiteConso) {
         this.dateLimiteConso = dateLimiteConso;
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("ProduitPerissable{");
+        sb.append(super.toString());
+        sb.append("dateLimiteConso=").append(dateLimiteConso);
+        sb.append('}');
+        return sb.toString();
+    }
 }

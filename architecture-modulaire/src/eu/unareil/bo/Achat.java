@@ -1,10 +1,11 @@
 package eu.unareil.bo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Achat {
     private double montant;
-    private List<Ligne> lignesAchat;
+    private List<Ligne> lignesAchat = new ArrayList<>();
 
     public Achat(Ligne ligne) {
         this.lignesAchat.add(ligne);
@@ -18,9 +19,9 @@ public class Achat {
         return lignesAchat.get(index);
     }
 
-    public void ajouteLigne(Produit p, int qte) {
-        Ligne l = new Ligne(qte, p);
-        lignesAchat.add(l);
+    public void ajouteLigne(Produit produit, int quantite) {
+        Ligne ligne = new Ligne(produit, quantite);
+        this.lignesAchat.add(ligne);
     }
 
     public void supprimeLigne(int index) {

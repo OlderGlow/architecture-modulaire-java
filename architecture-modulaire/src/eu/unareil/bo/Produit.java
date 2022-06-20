@@ -67,13 +67,13 @@ public class Produit {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Produit{");
+        final StringBuffer sb = new StringBuffer();
+        sb.append(this.getClass().getSimpleName()).append(" [");
         sb.append("refProd=").append(refProd);
         sb.append(", libelle='").append(libelle).append('\'');
         sb.append(", marque='").append(marque).append('\'');
         sb.append(", prixUnitaire=").append(prixUnitaire);
         sb.append(", qteStock=").append(qteStock);
-        sb.append('}');
         return sb.toString();
     }
 }

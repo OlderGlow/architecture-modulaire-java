@@ -11,12 +11,12 @@ public class Pain extends ProduitPerissable {
     }
 
     public Pain(long refProd, String marque, String libelle, int poids, long qteStock, float prixUnitaire) {
-        super(refProd, libelle, marque, prixUnitaire, qteStock, LocalDate.now());
+        super(refProd, libelle, marque, prixUnitaire, qteStock, LocalDate.now().plusDays(2));
         this.poids = poids;
     }
 
     public Pain(String marque, String libelle, int poids, long qteStock, float prixUnitaire) {
-        super(libelle, marque, prixUnitaire, qteStock, LocalDate.now());
+        super(libelle, marque, prixUnitaire, qteStock, LocalDate.now().plusDays(2));
         this.poids = poids;
     }
 
@@ -26,5 +26,14 @@ public class Pain extends ProduitPerissable {
 
     public void setPoids(int poids) {
         this.poids = poids;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer();
+        sb.append(super.toString()).append(", ");
+        sb.append("poids=").append(poids);
+        sb.append(']');
+        return sb.toString();
     }
 }
