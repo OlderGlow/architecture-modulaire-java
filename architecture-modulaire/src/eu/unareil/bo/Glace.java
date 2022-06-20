@@ -39,4 +39,14 @@ public class Glace extends ProduitPerissable{
     public void setTemperatureConservation(int temperatureConservation) {
         this.temperatureConservation = temperatureConservation;
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer();
+        sb.append(super.toString()).append(", ");
+        sb.append("parfum=").append(parfum);
+        sb.append(", temperatureConservation=").append(temperatureConservation);
+        sb.append(']');
+        return sb.toString();
+    }
 }

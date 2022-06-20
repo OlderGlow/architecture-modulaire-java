@@ -22,4 +22,18 @@ public class CartePostale extends Produit{
         this.type = type.toString();
         this.lesAuteurs = lesAuteurs;
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer();
+        sb.append(super.toString()).append(", ");
+        sb.append("auteurs=");
+        for(Auteur auteur : lesAuteurs) {
+            sb.append("auteur").append((lesAuteurs.indexOf(auteur))+1).append("=");
+            sb.append(auteur.getNom()).append(" ").append(auteur.getPrenom()).append(", ");
+        }
+        sb.append("type=").append(type);
+        sb.append(']');
+        return sb.toString();
+    }
 }

@@ -1,9 +1,12 @@
 package eu.unareil.bo;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Achat {
+    private long refAchat;
     private double montant;
     private List<Ligne> lignesAchat = new ArrayList<>();
 
@@ -11,8 +14,18 @@ public class Achat {
         this.lignesAchat.add(ligne);
     }
 
+    public Achat(long refAchat, double montant, List<Ligne> lignesAchat) {
+        this.refAchat = refAchat;
+        this.montant = montant;
+        this.lignesAchat = lignesAchat;
+    }
+
     public double getMontant() {
         return montant;
+    }
+
+    public void setMontant(double montant) {
+        this.montant = montant;
     }
 
     public Ligne getLigne(int index) {
@@ -33,15 +46,12 @@ public class Achat {
         ligne.setQuantite(nouvelleQte);
     }
 
-    public void calculMontant() {
+    public double calculMontant() {
         montant = 0;
         for (Ligne ligne : lignesAchat) {
             montant += ligne.getQte() * ligne.getProduit().getPrixUnitaire();
         }
-    }
-
-    public void setMontant(double montant) {
-        this.montant = montant;
+        return montant;
     }
 
     public List<Ligne> getLignes() {
@@ -52,12 +62,31 @@ public class Achat {
         this.lignesAchat = lignesAchat;
     }
 
+    public long getRefAchat() {
+        return refAchat;
+    }
+
+    public void setRefAchat(long refAchat) {
+        this.refAchat = refAchat;
+    }
+
+    public List<Ligne> getLignesAchat() {
+        return lignesAchat;
+    }
+
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Achat{");
-        sb.append("montant=").append(montant);
-        sb.append(", lignesAchat=").append(lignesAchat);
-        sb.append('}');
+        final StringBuffer sb = new StringBuffer();
+        DecimalFormat df = new DecimalFormat("#.00");
+        sb.append("Achat : ").append("\n");
+        for(Ligne ligne : lignesAchat) {
+            sb.append("\n");
+            sb.append("ligne ").append((lignesAchat.indexOf(ligne)) + 1).append(" : ");
+            sb.append(ligne.toString());
+        }
+        sb.append("\n");
+        sb.append("\n");
+        sb.append("Total de l'achat : ").append(df.format(calculMontant())).append(" euro").append((montant > 1) ? "s" : "");
         return sb.toString();
     }
 }

@@ -1,6 +1,7 @@
 package eu.unareil.bo;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class ProduitPerissable extends Produit {
     private LocalDate dateLimiteConso;
@@ -29,10 +30,9 @@ public class ProduitPerissable extends Produit {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("ProduitPerissable{");
-        sb.append(super.toString());
-        sb.append("dateLimiteConso=").append(dateLimiteConso);
-        sb.append('}');
+        final StringBuilder sb = new StringBuilder();
+        sb.append(super.toString()).append(", ");
+        sb.append("dateLimiteConso=").append(dateLimiteConso.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         return sb.toString();
     }
 }

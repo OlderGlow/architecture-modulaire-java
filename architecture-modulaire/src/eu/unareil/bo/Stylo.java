@@ -41,8 +41,8 @@ public class Stylo extends Produit {
     public String toString() {
         final StringBuffer sb = new StringBuffer();
         sb.append(super.toString()).append(", ");
-        sb.append("couleur='").append(couleur).append('\'');
-        sb.append(", typeMine='").append(typeMine).append('\'');
+        sb.append("couleur=").append(couleur);
+        sb.append(", typeMine=").append(typeMine);
         sb.append(']');
         return sb.toString();
     }

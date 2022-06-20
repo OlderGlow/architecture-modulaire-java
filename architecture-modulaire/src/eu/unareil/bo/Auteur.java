@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Auteur {
+    private long refAuteur;
     private String nom;
     private String prenom;
     private List<CartePostale> lesCartes = new ArrayList<>();
@@ -13,12 +14,27 @@ public class Auteur {
         this.prenom = prenom;
     }
 
+    public Auteur(long refAuteur, String nom, String prenom, List<CartePostale> lesCartes) {
+        this.refAuteur = refAuteur;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.lesCartes = lesCartes;
+    }
+
     public String getNom() {
         return nom;
     }
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public long getRefAuteur() {
+        return refAuteur;
+    }
+
+    public void setRefAuteur(long refAuteur) {
+        this.refAuteur = refAuteur;
     }
 
     public String getPrenom() {
@@ -36,4 +52,5 @@ public class Auteur {
     public void setLesCartes(List<CartePostale> lesCartes) {
         this.lesCartes = lesCartes;
     }
+
 }
