@@ -11,14 +11,14 @@ public class Ligne {
     }
 
     public Ligne(Produit produit, int quantite) {
-        this.quantite = quantite;
-        this.produit = produit;
+        this.setQuantite(quantite);
+        this.setProduit(produit);
     }
 
     public Ligne(long refLigne, int quantite, Produit produit) {
-        this.refLigne = refLigne;
-        this.quantite = quantite;
-        this.produit = produit;
+        this.setRefLigne(refLigne);
+        this.setQuantite(quantite);
+        this.setProduit(produit);
     }
 
     public int getQte() {

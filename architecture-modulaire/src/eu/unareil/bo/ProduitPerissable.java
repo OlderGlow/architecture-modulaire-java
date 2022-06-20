@@ -7,26 +7,26 @@ public abstract class ProduitPerissable extends Produit {
     private LocalDate dateLimiteConso;
 
     public ProduitPerissable(LocalDate dateLimiteConso) {
-        this.dateLimiteConso = dateLimiteConso;
+        this.setDateLimiteConso(dateLimiteConso);
     }
 
     public ProduitPerissable(long refProd, String libelle, String marque, float prixUnitaire, long qteStock, LocalDate dateLimiteConso) {
         super(refProd, libelle, marque, prixUnitaire, qteStock);
-        this.dateLimiteConso = dateLimiteConso;
+        this.setDateLimiteConso(dateLimiteConso);
     }
 
     public ProduitPerissable(String libelle, String marque, float prixUnitaire, long qteStock, LocalDate dateLimiteConso) {
         super(libelle, marque, prixUnitaire, qteStock);
-        this.dateLimiteConso = dateLimiteConso;
+        this.setDateLimiteConso(dateLimiteConso);
     }
 
     public LocalDate getDateLimiteConso() {
         return dateLimiteConso;
     }
 
-    public void setDateLimiteConso(LocalDate dateLimiteConso) {
+    public void setDateLimiteConso(LocalDate dateLimiteConso){
         this.dateLimiteConso = dateLimiteConso;
-    }
+    };
 
     @Override
     public String toString() {

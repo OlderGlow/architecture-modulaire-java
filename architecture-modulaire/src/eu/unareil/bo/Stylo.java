@@ -5,20 +5,20 @@ public class Stylo extends Produit {
     private String typeMine;
 
     public Stylo(String couleur, String typeMine) {
-        this.couleur = couleur;
-        this.typeMine = typeMine;
+        this.setCouleur(couleur);
+        this.setTypeMine(typeMine);
     }
 
     public Stylo(long refProd, String libelle, String marque, float prixUnitaire, long qteStock, String couleur, String typeMine) {
         super(refProd, libelle, marque, prixUnitaire, qteStock);
-        this.couleur = couleur;
-        this.typeMine = typeMine;
+        this.setCouleur(couleur);
+        this.setTypeMine(typeMine);
     }
 
     public Stylo(String marque, String libelle, long qteStock, float prixUnitaire, String couleur, String typeMine) {
         super(libelle, marque, prixUnitaire, qteStock);
-        this.couleur = couleur;
-        this.typeMine = typeMine;
+        this.setCouleur(couleur);
+        this.setTypeMine(typeMine);
     }
 
     public String getCouleur() {

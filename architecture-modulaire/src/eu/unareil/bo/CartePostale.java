@@ -7,19 +7,35 @@ public class CartePostale extends Produit{
     private List<Auteur> lesAuteurs;
 
     public CartePostale(String type, List<Auteur> lesAuteurs) {
-        this.type = type;
-        this.lesAuteurs = lesAuteurs;
+        this.setType(type);
+        this.setLesAuteurs(lesAuteurs);
     }
 
     public CartePostale(long refProd, String marque, String libelle, long qteStock, float prixUnitaire, List<Auteur> lesAuteurs, TypeCartePostale type) {
         super(refProd, libelle, marque, prixUnitaire, qteStock);
-        this.type = type.toString();
-        this.lesAuteurs = lesAuteurs;
+        this.setType(type.toString());
+        this.setLesAuteurs(lesAuteurs);
     }
 
     public CartePostale(String marque, String libelle, long qteStock, float prixUnitaire, List<Auteur> lesAuteurs, TypeCartePostale type) {
         super(libelle, marque, prixUnitaire, qteStock);
-        this.type = type.toString();
+        this.setType(type.toString());
+        this.setLesAuteurs(lesAuteurs);
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public List<Auteur> getLesAuteurs() {
+        return lesAuteurs;
+    }
+
+    public void setLesAuteurs(List<Auteur> lesAuteurs) {
         this.lesAuteurs = lesAuteurs;
     }
 

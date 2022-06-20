@@ -1,7 +1,6 @@
 package eu.unareil.bo;
 
 import java.text.DecimalFormat;
-import java.util.Locale;
 
 public class Produit {
     private long refProd;
@@ -14,18 +13,18 @@ public class Produit {
     }
 
     public Produit(long refProd, String libelle, String marque, float prixUnitaire, long qteStock) {
-        this.refProd = refProd;
-        this.libelle = libelle;
-        this.marque = marque;
-        this.prixUnitaire = prixUnitaire;
-        this.qteStock = qteStock;
+        this.setRefProd(refProd);
+        this.setLibelle(libelle);
+        this.setMarque(marque);
+        this.setPrixUnitaire(prixUnitaire);
+        this.setQteStock(qteStock);
     }
 
     public Produit(String libelle, String marque, float prixUnitaire, long qteStock) {
-        this.libelle = libelle;
-        this.marque = marque;
-        this.prixUnitaire = prixUnitaire;
-        this.qteStock = qteStock;
+        this.setLibelle(libelle);
+        this.setMarque(marque);
+        this.setPrixUnitaire(prixUnitaire);
+        this.setQteStock(qteStock);
     }
 
     public long getRefProd() {

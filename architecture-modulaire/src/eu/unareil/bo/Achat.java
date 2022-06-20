@@ -3,7 +3,6 @@ package eu.unareil.bo;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class Achat {
     private long refAchat;
@@ -15,9 +14,9 @@ public class Achat {
     }
 
     public Achat(long refAchat, double montant, List<Ligne> lignesAchat) {
-        this.refAchat = refAchat;
-        this.montant = montant;
-        this.lignesAchat = lignesAchat;
+        this.setRefAchat(refAchat);
+        this.setMontant(montant);
+        this.setLignesAchat(lignesAchat);
     }
 
     public double getMontant() {
@@ -58,10 +57,6 @@ public class Achat {
         return lignesAchat;
     }
 
-    public void setLignesAchat(List<Ligne> lignesAchat) {
-        this.lignesAchat = lignesAchat;
-    }
-
     public long getRefAchat() {
         return refAchat;
     }
@@ -74,12 +69,16 @@ public class Achat {
         return lignesAchat;
     }
 
+    public void setLignesAchat(List<Ligne> lignesAchat) {
+        this.lignesAchat = lignesAchat;
+    }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer();
         DecimalFormat df = new DecimalFormat("#0.00");
         sb.append("Achat : ").append("\n");
-        for(Ligne ligne : lignesAchat) {
+        for (Ligne ligne : lignesAchat) {
             sb.append("\n");
             sb.append("ligne ").append((lignesAchat.indexOf(ligne)) + 1).append(" : ");
             sb.append(ligne.toString());

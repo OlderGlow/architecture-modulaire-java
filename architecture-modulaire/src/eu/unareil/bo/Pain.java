@@ -7,17 +7,17 @@ public class Pain extends ProduitPerissable {
 
     public Pain(LocalDate dateLimiteConso, int poids) {
         super(dateLimiteConso);
-        this.poids = poids;
+        this.setPoids(poids);
     }
 
     public Pain(long refProd, String marque, String libelle, int poids, long qteStock, float prixUnitaire) {
         super(refProd, libelle, marque, prixUnitaire, qteStock, LocalDate.now().plusDays(2));
-        this.poids = poids;
+        this.setPoids(poids);
     }
 
     public Pain(String marque, String libelle, int poids, long qteStock, float prixUnitaire) {
         super(libelle, marque, prixUnitaire, qteStock, LocalDate.now().plusDays(2));
-        this.poids = poids;
+        this.setPoids(poids);
     }
 
     public int getPoids() {
@@ -27,6 +27,7 @@ public class Pain extends ProduitPerissable {
     public void setPoids(int poids) {
         this.poids = poids;
     }
+
 
     @Override
     public String toString() {

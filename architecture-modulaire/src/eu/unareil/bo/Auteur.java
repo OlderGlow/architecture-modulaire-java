@@ -10,15 +10,15 @@ public class Auteur {
     private List<CartePostale> lesCartes = new ArrayList<>();
 
     public Auteur(String nom, String prenom) {
-        this.nom = nom;
-        this.prenom = prenom;
+        this.setNom(nom);
+        this.setPrenom(prenom);
     }
 
     public Auteur(long refAuteur, String nom, String prenom, List<CartePostale> lesCartes) {
-        this.refAuteur = refAuteur;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.lesCartes = lesCartes;
+        this.setRefAuteur(refAuteur);
+        this.setNom(nom);
+        this.setPrenom(prenom);
+        this.setLesCartes(lesCartes);
     }
 
     public String getNom() {
