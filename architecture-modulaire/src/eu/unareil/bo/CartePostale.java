@@ -6,6 +6,9 @@ public class CartePostale extends Produit{
     private String type;
     private List<Auteur> lesAuteurs;
 
+    public CartePostale() {
+    }
+
     public CartePostale(String type, List<Auteur> lesAuteurs) {
         this.setType(type);
         this.setLesAuteurs(lesAuteurs);
@@ -22,6 +25,8 @@ public class CartePostale extends Produit{
         this.setType(type.toString());
         this.setLesAuteurs(lesAuteurs);
     }
+
+
 
     public String getType() {
         return type;

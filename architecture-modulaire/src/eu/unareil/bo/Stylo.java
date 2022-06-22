@@ -21,6 +21,8 @@ public class Stylo extends Produit {
         this.setTypeMine(typeMine);
     }
 
+
+
     public String getCouleur() {
         return couleur;
     }

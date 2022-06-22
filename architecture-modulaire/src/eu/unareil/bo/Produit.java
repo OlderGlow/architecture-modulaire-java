@@ -67,6 +67,8 @@ public class Produit {
         this.qteStock = qteStock;
     }
 
+
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
@@ -76,7 +78,7 @@ public class Produit {
         if (refProd != 0) {
             sb.append(", refProd=").append(refProd).append(", ");
         }
-        sb.append(", marque=").append(marque);
+        sb.append("marque=").append(marque);
         sb.append(", prixUnitaire=").append(df.format(prixUnitaire)).append(" euro").append((prixUnitaire > 1) ? "s" : "");
         sb.append(", qteStock=").append(qteStock);
         return sb.toString();
