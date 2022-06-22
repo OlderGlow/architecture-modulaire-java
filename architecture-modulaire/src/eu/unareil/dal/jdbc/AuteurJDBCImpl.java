@@ -17,9 +17,9 @@ public class AuteurJDBCImpl implements DAO<Auteur> {
     private final static String SQL_INSERT = "INSERT INTO auteur (nom, prenom) VALUES (?, ?)";
     private final static String SQL_UPDATE = "UPDATE auteur SET nom = ?, prenom = ? WHERE id = ?";
     private final static String SQL_DELETE = "DELETE FROM auteur WHERE id = ?";
+    private final static String SQL_SELECT_ALL = "SELECT id, nom, prenom FROM auteur";
     private final static String SQL_SELECT_BY_ID = "SELECT * FROM auteur WHERE id = ?";
-    private final static String SQL_SELECT_ALL = "SELECT * FROM auteur a JOIN auteur_cartePostale ba ON a.id = ba.refAuteur JOIN produit b ON b.refProd = ba.refCartePostale WHERE b.type = 'CartePostale'";
-    private static final String SQL_SELECT_ALL_BY_AUTEUR = "SELECT * FROM produit WHERE refProd IN (SELECT refProd FROM auteur_cartePostale WHERE refAuteur = ?)";
+    private static final String SQL_SELECT_ALL_BY_CARTE_POSTALE = "SELECT a.id, a.nom, a.prenom, GROUP_CONCAT(c.refProd, ',', c.libelle, ',', c.marque, ',', c.prixUnitaire, ',', c.qteStock, ',', c.typeCartePostale) AS cartesPostales FROM auteur a, auteur_cartePostale ac, produit c WHERE a.id = ac.refAuteur AND ac.refCartePostale = c.refProd GROUP BY a.id";
     private static final CartePostaleJDBCImpl cartePostaleJDBCImpl = new CartePostaleJDBCImpl();
 
     @Override
@@ -66,7 +66,7 @@ public class AuteurJDBCImpl implements DAO<Auteur> {
     @Override
     public Auteur selectById(long id) throws DalException {
         Auteur auteur = new Auteur();
-        try (Connection connection = JDBCTools.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_ID); PreparedStatement preparedStatement2 = connection.prepareStatement(SQL_SELECT_ALL_BY_AUTEUR)) {
+        try (Connection connection = JDBCTools.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_ID); PreparedStatement preparedStatement2 = connection.prepareStatement(SQL_SELECT_ALL_BY_CARTE_POSTALE)) {
             preparedStatement.setLong(1, id);
             preparedStatement2.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -89,12 +89,20 @@ public class AuteurJDBCImpl implements DAO<Auteur> {
     @Override
     public List<Auteur> selectAll() throws DalException {
         List<Auteur> auteurs = new ArrayList<>();
-        List<CartePostale> cartePostales = new ArrayList<>();
-        try (Connection connection = JDBCTools.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ALL)) {
+        try (Connection connection = JDBCTools.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ALL_BY_CARTE_POSTALE)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                Auteur auteur = new Auteur(resultSet.getLong("id"), resultSet.getString("nom"), resultSet.getString("prenom"));
+                List<CartePostale> cartePostales = new ArrayList<>();
+                Auteur auteur = new Auteur();
+                auteur.setRefAuteur(resultSet.getLong("id"));
+                auteur.setNom(resultSet.getString("nom"));
+                auteur.setPrenom(resultSet.getString("prenom"));
+                String[] cartePostalesString = resultSet.getString("cartesPostales").split(",");
+                CartePostale cartePostale = new CartePostale(Long.parseLong(cartePostalesString[0]), cartePostalesString[1], cartePostalesString[2], Float.parseFloat(cartePostalesString[3]), Long.parseLong(cartePostalesString[4]), cartePostalesString[5]);
+                cartePostales.add(cartePostale);
+                auteur.setLesCartes(cartePostales);
                 auteurs.add(auteur);
+                cartePostale.setLesAuteurs(auteurs);
             }
         } catch (SQLException e) {
             throw new DalException("Erreur lors de la sélection de tous les auteurs", e);

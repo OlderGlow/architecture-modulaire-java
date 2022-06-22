@@ -18,12 +18,12 @@ public class CartePostaleJDBCImpl implements DAO<CartePostale> {
     private static final String SQL_UPDATE = "UPDATE produit SET libelle = ?, marque = ?, prixUnitaire = ?, qteStock = ?, type = ? WHERE refProd = ?";
     private static final String SQL_DELETE = "DELETE FROM produit WHERE refProd = ?";
     private static final String SQL_SELECT_BY_ID = "SELECT p.refProd, p.libelle, p.marque, p.prixUnitaire, p.qteStock, p.typeCartePostale, a.nom, a.prenom FROM produit p, auteur a WHERE refProd IN (SELECT refCartePostale FROM auteur_cartePostale) AND p.refProd = ?";
-    // select all produit where type = 'cartePostale' and with nom, prenom from auteur
-    private static final String SQL_SELECT_ALL = "SELECT p.refProd, p.libelle, p.marque, p.prixUnitaire, p.qteStock, p.typeCartePostale, a.id, a.nom, a.prenom\n" + "FROM produit p\n" + "JOIN auteur_cartePostale ac ON p.refProd = ac.refCartePostale\n" + "JOIN auteur a ON a.id = ac.refAuteur";
+    private static final String SQL_SELECT_ALL_BY_AUTHOR = "SELECT p.refProd, p.libelle, p.marque, p.prixUnitaire, p.qteStock, p.typeCartePostale, GROUP_CONCAT(a.id, ' ', a.nom, ' ', a.prenom) AS auteurs FROM produit p, auteur_cartePostale ac, auteur a WHERE p.refProd = ac.refCartePostale AND ac.refAuteur = a.id GROUP BY p.refProd";
+    private static final String SQL_INSERT_AUTHOR = "INSERT INTO auteur_cartePostale (refCartePostale, refAuteur) VALUES (?, ?)";
 
     @Override
     public void insert(CartePostale objet) throws DalException {
-        try (Connection connection = JDBCTools.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = JDBCTools.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT, PreparedStatement.RETURN_GENERATED_KEYS); PreparedStatement preparedStatement2 = connection.prepareStatement(SQL_INSERT_AUTHOR)) {
             preparedStatement.setString(1, objet.getLibelle());
             preparedStatement.setString(2, objet.getMarque());
             preparedStatement.setDouble(3, objet.getPrixUnitaire());
@@ -37,6 +37,11 @@ public class CartePostaleJDBCImpl implements DAO<CartePostale> {
                 ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
                 if (generatedKeys.next()) {
                     objet.setRefProd(generatedKeys.getLong(1));
+                }
+                for(Auteur auteur : objet.getLesAuteurs()) {
+                    preparedStatement2.setLong(1, objet.getRefProd());
+                    preparedStatement2.setLong(2, auteur.getRefAuteur());
+                    preparedStatement2.executeUpdate();
                 }
             }
         } catch (SQLException e) {
@@ -110,23 +115,26 @@ public class CartePostaleJDBCImpl implements DAO<CartePostale> {
     @Override
     public List<CartePostale> selectAll() throws DalException {
         List<CartePostale> cartePostales = new ArrayList<>();
-        try (Connection connection = JDBCTools.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ALL)) {
+        try (Connection connection = JDBCTools.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ALL_BY_AUTHOR)) {
             ResultSet resultSet = preparedStatement.executeQuery();
-           do {
-               resultSet.next();
-                CartePostale cartePostale = new CartePostale();
+            while (resultSet.next()) {
                 List<Auteur> auteurs = new ArrayList<>();
+                CartePostale cartePostale = new CartePostale();
                 cartePostale.setRefProd(resultSet.getLong("refProd"));
                 cartePostale.setLibelle(resultSet.getString("libelle"));
                 cartePostale.setMarque(resultSet.getString("marque"));
                 cartePostale.setPrixUnitaire(resultSet.getFloat("prixUnitaire"));
                 cartePostale.setQteStock(resultSet.getLong("qteStock"));
                 cartePostale.setType(resultSet.getString("typeCartePostale"));
-                Auteur auteur = new Auteur(resultSet.getString("nom"), resultSet.getString("prenom"));
-                auteurs.add(auteur);
+                String[] auteursString = resultSet.getString("auteurs").split(",");
+                for (String auteurString : auteursString) {
+                    String[] auteur = auteurString.split(" ");
+                    Auteur auteur1 = new Auteur(Long.parseLong(auteur[0]), auteur[1], auteur[2]);
+                    auteurs.add(auteur1);
+                }
                 cartePostale.setLesAuteurs(auteurs);
                 cartePostales.add(cartePostale);
-           } while (resultSet.next());
+            }
         } catch (SQLException e) {
             throw new DalException("Erreur lors de la récupération de tous les produits", e);
         }
