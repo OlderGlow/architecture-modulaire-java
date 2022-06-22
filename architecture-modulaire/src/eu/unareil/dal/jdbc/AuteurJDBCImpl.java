@@ -89,10 +89,11 @@ public class AuteurJDBCImpl implements DAO<Auteur> {
     @Override
     public List<Auteur> selectAll() throws DalException {
         List<Auteur> auteurs = new ArrayList<>();
-        try (Connection connection = JDBCTools.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ALL_BY_CARTE_POSTALE)) {
+        try (Connection connection = JDBCTools.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ALL_BY_CARTE_POSTALE); PreparedStatement preparedStatement2 = connection.prepareStatement(SQL_SELECT_ALL)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 List<CartePostale> cartePostales = new ArrayList<>();
+                List<Auteur> auteurs1 = new ArrayList<>();
                 Auteur auteur = new Auteur();
                 auteur.setRefAuteur(resultSet.getLong("id"));
                 auteur.setNom(resultSet.getString("nom"));
@@ -101,9 +102,21 @@ public class AuteurJDBCImpl implements DAO<Auteur> {
                 CartePostale cartePostale = new CartePostale(Long.parseLong(cartePostalesString[0]), cartePostalesString[1], cartePostalesString[2], Float.parseFloat(cartePostalesString[3]), Long.parseLong(cartePostalesString[4]), cartePostalesString[5]);
                 cartePostales.add(cartePostale);
                 auteur.setLesCartes(cartePostales);
-                auteurs.add(auteur);
-                cartePostale.setLesAuteurs(auteurs);
+                auteurs1.add(auteur);
+                auteurs.addAll(auteurs1);
+                cartePostale.setLesAuteurs(auteurs1);
             }
+            ResultSet resultSet2 = preparedStatement2.executeQuery();
+            List<Auteur> auteurs2 = new ArrayList<>();
+            while (resultSet2.next()) {
+                for (Auteur auteur : auteurs) {
+                    if (auteur.getRefAuteur() != resultSet2.getLong("id")) {
+                        Auteur auteur2 = new Auteur(resultSet2.getLong("id"), resultSet2.getString("nom"), resultSet2.getString("prenom"));
+                        auteurs2.add(auteur2);
+                    }
+                }
+            }
+            auteurs.addAll(auteurs2);
         } catch (SQLException e) {
             throw new DalException("Erreur lors de la sélection de tous les auteurs", e);
         }

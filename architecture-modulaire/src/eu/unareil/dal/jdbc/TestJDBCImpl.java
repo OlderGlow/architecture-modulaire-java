@@ -17,7 +17,9 @@ public class TestJDBCImpl {
         try {
             // Création d'un auteur
             Auteur auteur = new Auteur("Dupont", "Jean");
+            Auteur auteur1 = new Auteur("DeLaFontaine", "Pierrick");
             auteurJDBC.insert(auteur);
+            auteurJDBC.insert(auteur1);
             // Création d'une carte Postale
             List<Auteur> lesAuteurs = new ArrayList<Auteur>();
             lesAuteurs.add(auteur);
